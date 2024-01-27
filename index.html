@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreJS</title>
+    <link rel="stylesheet" href="dist/themes/default/style.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <!--<div id="jstree_demo_div">
+        <ul>
+            <li>FONDO</li>
+            <li class="jstree-closed">SECCION</li>
+            <li class="jstree-closed">SUBSECCION</li>
+            <li class="jstree-closed">SERIE</li>
+                <ul>
+                    <li><a href="#">nodo hijo</li></a>
+                    <li><a href="#">nodo hijo2</li></a>
+                </ul>
+        </ul>
+    </div>-->
+
+    <div id="ajax">
+
+    </div>
+
+    
+      
+      <!--<button>oprimir</button>
+      <hr>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal1">
+        Launch demo modal
+      </button>-->
+
+      <div id="modal1" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Nueva Serie</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation" method="post" enctype="multipart/form-data">
+                    <div class="col-xl-12 mb-3">
+                        
+                        <input id="seccionpadre" class="form-control mayusculas" type="hidden" name="seccionpadre" maxlength="50" autocomplete="off" required>
+                    </div>
+                    <div class="col-xl-12 mb-3">
+                        <label for="idclave">Clave:</label>
+                        <input id="id_clave" class="form-control mayusculas" type="text" name="clave" maxlength="50" autocomplete="off" required>
+                    </div>
+                    <div class="col-xl-12 mb-3">
+                        <label for="descripcion">Descripcion:</label>
+                        <input id="descripcion" class="form-control mayusculas" type="text" name="descripcion" maxlength="500" autocomplete="off" required>
+                    </div>
+                    <div class="col-xl-12 mb-3">
+                        <label for="orden">Orden:</label>
+                        <input id="orden" class="form-control mayusculas" type="number" name="orden" value="0" min="0" autocomplete="off" required>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success waves-effect waves-light m-r-10">Guardar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="button" class="btn btn-primary">Crear</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
+    <script src="dist/jstree.min.js"></script>
+    <script>
+        $(function(){ 
+            $('#jstree_demo_div').jstree();
+        });
+
+
+        // utilizacion de ajax
+        $('#ajax').jstree({
+            "plugins" : ["dnd",  "search" ,"state", "types", "wholerow","contextmenu"],
+            'core' : {
+                'data' : {
+                    "url" : "./root.json",
+                    "dataType" : "json" // needed only if you do not supply JSON headers
+                }
+            },
+            "contextmenu" : {
+                items: {
+                    "create" : {
+                        // The item label
+                        "label" : "Nuevo elemento",
+                        // The function to execute upon a click
+                        "action": function (obj) { 
+                            $('#modal1').modal('show');
+                            //console.log(obj);
+                            //console.log("mensjase"); 
+                        },
+                    },
+                    "create2" : {
+                        // The item label
+                        "label" : "Nuevo elemento2",
+                        // The function to execute upon a click
+                        "action": function (obj) { 
+                            $('#modal1').modal('show');
+                            //console.log(obj);
+                            //console.log("mensjase"); 
+                        },
+                    }
+                }
+            }
+        });
+        
+
+        /*$('#ajax').on("changed.jstree", function(e,data){
+            console.log(data.selected);
+            console.log("change selecte4d: "+data.changed.selected);
+            console.log(e);
+            //console.log("data original"+data.original);
+            //alert("se ejecuto esta funcion al change");
+        })
+        .jstree({
+            "plugins":["changed","checkbox","contextmenu"]
+        });*/
+
+        $('#jstree_demo_div').on("changed.jstree", function(e,data){
+            console.log(data.selected);
+            console.log("change selecte4d: "+data.changed.selected);
+            console.log(e);
+            //console.log("data original"+data.original);
+            //alert("se ejecuto esta funcion al change");
+        })
+        .jstree({
+            "plugins":["changed","checkbox","contextmenu"]
+        });
+
+        /*$("#jstree_demo_div").jstree({
+            "checkbox" : {
+            "keep_selected_style" : false
+            },
+            "plugins" : [ "checkbox" ]
+        });*/
+
+        /*$('#jstree_demo_div').on("dehover_node.jstree", function(e,data){
+            console.log("funcion dehover: "+data.selected);
+            console.log(e);
+        });*/
+
+        //select_node.jstree
+
+        $('#jstree_demo_div').on("select_node.jstree", function(e,data){
+            console.log("funcion select node: "+data.selected);
+            console.log("funcion select length: "+data.selected.length);
+            console.log(e);
+            console.log("valores: ",data);
+        });
+
+        $('#ajax').on("select_node.jstree", function(e,data){
+            
+            console.log("valores: ",data);
+        });
+
+        $('#jstree_demo_div').on("activate_node.jstree", function(e,data){
+            console.log("funcion activate node: "+data.selected);
+            console.log(e);
+        });
+    </script>
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+</body>
+</html>
